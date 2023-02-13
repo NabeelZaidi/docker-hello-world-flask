@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Data from Azure SQL Database</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Column 1</th>
+        <th>Column 2</th>
+        <th>Column 3</th>
+      </tr>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
