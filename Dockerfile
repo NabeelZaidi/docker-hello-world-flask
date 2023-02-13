@@ -7,10 +7,10 @@ COPY . /app
 WORKDIR /app
 
 RUN apk update && \
-    apk add --no-cache build-base unixodbc-dev unixodbc-dev tzdata && \
+    apk add --no-cache build-base unixodbc-dev tzdata && \
     pip install -r requirements.txt
 
-
+RUN pip install pyodbc
 RUN pip install -r requirements.txt
 
 
