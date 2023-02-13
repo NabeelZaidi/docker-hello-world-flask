@@ -1,7 +1,2 @@
-Click==7.0
-Flask==1.0.2
-itsdangerous==1.1.0
-Jinja2==2.10
-MarkupSafe==1.1.1
-Werkzeug==0.15.5
-pyodbc==4.0.30
+Flask==2.1.0
+Pyodbc==4.0.35
