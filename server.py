@@ -5,7 +5,7 @@ from flask import Flask
 PORT = 8000
 MESSAGE = "Hello, world! \n This is flask app(v-2.0.11).I am Nabeel \n"
 # Get the connection string from an environment variable
-conn_str = "Server=tcp:testsqlservernab.database.windows.net,1433;Initial Catalog=testdb;Persist Security Info=False;User ID=CloudSAc6dc0547;Password=Hanu@1234567;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+conn_str = "Driver={ODBC Driver 18 for SQL Server};Server=tcp:testsqlservernab.database.windows.net,1433;Database=testdb;Uid=CloudSAc6dc0547;Pwd=Hanu@1234567;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 
 
 app = Flask(__name__)
