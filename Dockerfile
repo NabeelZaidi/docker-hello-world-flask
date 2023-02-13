@@ -9,7 +9,8 @@ WORKDIR /app
 
 RUN apk update && \
     apk add --no-cache build-base
-    
+
+RUN apk add --update --no-cache unixodbc-dev
 RUN pip install -r requirements.txt
 
 
