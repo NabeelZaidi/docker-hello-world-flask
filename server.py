@@ -1,16 +1,37 @@
+import os
+import pyodbc
 from flask import Flask
 
 PORT = 8000
 MESSAGE = "Hello, world! \n This is flask app(v-2.0.11).I am Nabeel \n"
+# Get the connection string from an environment variable
+conn_str = "Server=tcp:testsqlservernab.database.windows.net,1433;Initial Catalog=testdb;Persist Security Info=False;User ID=CloudSAc6dc0547;Password=Hanu@1234567;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def root():
-    result = MESSAGE.encode("utf-8")
-    return result
+    #result = MESSAGE.encode("utf-8")
+    # Connect to the database
+    conn = pyodbc.connect(conn_str)
+    cursor = conn.cursor()
+    
+    # Execute a SELECT statement to retrieve data from the database
+    cursor.execute("SELECT * FROM mytable")
+    rows = cursor.fetchall()
+    
+    # Build the response string
+    result = MESSAGE
+    result += "Data from Azure SQL database:\n"
+    for row in rows:
+        result += str(row) + "\n"
+    
+    return result.encode("utf-8")
 
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=PORT)
+    
+
