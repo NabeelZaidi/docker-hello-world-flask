@@ -1,33 +1,18 @@
-FROM python:3.8.12-alpine
+FROM python:3.9
 
-RUN apk update
-RUN apk add gcc libc-dev g++ libffi-dev libxml2 unixodbc-dev unixodbc mariadb-dev libstdc++6
-RUN apk add bash icu-libs krb5-libs libgcc libintl libssl1.1 libstdc++ zlib curl gnupg
+WORKDIR /app
 
-#Download the desired package(s)
-RUN curl -O https://download.microsoft.com/download/1/f/f/1fffb537-26ab-4947-a46a-7a45c27f6f77/msodbcsql18_18.2.1.1-1_amd64.apk
-RUN curl -O https://download.microsoft.com/download/1/f/f/1fffb537-26ab-4947-a46a-7a45c27f6f77/mssql-tools18_18.2.1.1-1_amd64.apk
+COPY requirements.txt .
 
-
-#(Optional) Verify signature, if 'gpg' is missing install it using 'apk add gnupg':
-RUN curl -O https://download.microsoft.com/download/1/f/f/1fffb537-26ab-4947-a46a-7a45c27f6f77/msodbcsql18_18.2.1.1-1_amd64.sig
-RUN curl -O https://download.microsoft.com/download/1/f/f/1fffb537-26ab-4947-a46a-7a45c27f6f77/mssql-tools18_18.2.1.1-1_amd64.sig
+RUN apt-get update && apt-get install -y unixodbc unixodbc-dev
+RUN apt-get update && apt-get install -y curl apt-transport-https
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
 
-RUN curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import -
-RUN gpg --verify msodbcsql18_18.2.1.1-1_amd64.sig msodbcsql18_18.2.1.1-1_amd64.apk
-RUN gpg --verify mssql-tools18_18.2.1.1-1_amd64.sig mssql-tools18_18.2.1.1-1_amd64.apk
-
-#Install the package(s)
-RUN apk add --allow-untrusted msodbcsql18_18.2.1.1-1_amd64.apk
-RUN apk add --allow-untrusted mssql-tools18_18.2.1.1-1_amd64.apk
-
-
-RUN mkdir /code
-WORKDIR /code
-ADD . /code/
 RUN pip install -r requirements.txt
 
-EXPOSE 8000
+COPY . .
 
-CMD ["python","/code/server.py"]
+CMD ["python", "app.py"]
