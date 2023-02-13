@@ -1,14 +1,4 @@
-FROM python:3.8.2-alpine3.11
-
-ENV FLASK_APP=main.py
-ENV FLASK_ENV=development
-
-COPY . /app
-WORKDIR /app
-
-RUN apk update && \
-    apk add --no-cache build-base unixodbc-dev tzdata && \
-    pip install -r requirements.txt
+FROM python:3.8.12-alpine
 
 RUN apk update
 RUN apk add gcc libc-dev g++ libffi-dev libxml2 unixodbc-dev unixodbc mariadb-dev libstdc++6
@@ -30,10 +20,14 @@ RUN gpg --verify mssql-tools_17.8.1.1-1_amd64.sig mssql-tools_17.8.1.1-1_amd64.a
 RUN apk add --allow-untrusted msodbcsql17_17.8.1.1-1_amd64.apk
 RUN apk add --allow-untrusted mssql-tools_17.8.1.1-1_amd64.apk
 
-RUN pip install pyodbc
+
+RUN mkdir /code
+WORKDIR /code
+ADD . /code/
 RUN pip install -r requirements.txt
 
-ENTRYPOINT FLASK_APP=/app/server.py flask run --host=0.0.0.0 --port=80
+EXPOSE 8000
 
+CMD ["python","/code/server.py","runserver","0.0.0.0:8000"]
 
 
