@@ -6,11 +6,11 @@ ENV FLASK_ENV=development
 COPY . /app
 WORKDIR /app
 
-
 RUN apk update && \
-    apk add --no-cache build-base
+    apk add --no-cache build-base unixodbc-dev unixodbc-dev tzdata && \
+    pip install -r requirements.txt
 
-RUN apk add --update --no-cache unixodbc-dev
+
 RUN pip install -r requirements.txt
 
 
