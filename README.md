@@ -9,8 +9,7 @@ No spoke can communicate with each other directly, the communication path must g
 Architecture Diagram
 The following Mermaid diagram describes the architecture:
 
-sql
-Copy code
+``` mermaid
 graph LR
     subgraph Hub Vnet
         Hub_Vnet[Hub Vnet]
@@ -56,3 +55,4 @@ graph LR
     
     Private_DNS_Zone -- Azure_Web_App_PE[Resolve FQDNs]
     Private_DNS_Zone -- Azure_Container_Registry
+```
