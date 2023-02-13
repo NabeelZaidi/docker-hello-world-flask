@@ -6,6 +6,10 @@ ENV FLASK_ENV=development
 COPY . /app
 WORKDIR /app
 
+
+RUN apk update && \
+    apk add --no-cache build-base
+    
 RUN pip install -r requirements.txt
 
 
