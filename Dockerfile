@@ -14,5 +14,5 @@ RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
 RUN pip install -r requirements.txt
 
 COPY . .
-EXPOSE 5000
-CMD ["python", "app.py"]
+EXPOSE 8000
+CMD ["python", "app.py", "--port", "8000"]
