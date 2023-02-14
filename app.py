@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    my_secret = os.environ.get('MySecret')
+    my_secret = os.environ.get('SQLCONNSTR_MySecret')
     print(f'The value of MySecret is {my_secret}')
     conn = pyodbc.connect(
         "Driver={ODBC Driver 17 for SQL Server};"
